@@ -27,8 +27,16 @@ const PermissionsScreen = props => {
             );
         }else{
             setIsFetching(true);
-            const userLocation = await Location.getCurrentPositionAsync();
-            dispatch(setLocation(userLocation.coords.latitude, userLocation.coords.longitude));
+            try{
+                const userLocation = await Location.getCurrentPositionAsync({timeout: 5000});
+                dispatch(setLocation(userLocation.coords.latitude, userLocation.coords.longitude));
+            }catch(err){
+                Alert.alert(
+                    'Error!',
+                    'Could not find location. Please try again later.',
+                    [{text:'okay'}]
+                );
+            }
             setIsFetching(false);
         }
     }
