@@ -2,7 +2,10 @@ import React from 'react';
 import {View, Text, Button, StyleSheet, Alert} from 'react-native';
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
+import {useDispatch} from 'react-redux';
+import {setLocation} from './../store/actions/locationActions'; 
 const PermissionsScreen = props => {
+    const dispatch = useDispatch();
     const verifyPermission = async () => {
         const alreadyGranted = await Permissions.getAsync(Permissions.LOCATION);
         if(alreadyGranted.status !== 'granted'){
@@ -23,6 +26,7 @@ const PermissionsScreen = props => {
             );
         }else{
             const userLocation = await Location.getCurrentPositionAsync();
+            dispatch(setLocation(userLocation.coords.latitude, userLocation.coords.longitude));
         }
     }
     return (
