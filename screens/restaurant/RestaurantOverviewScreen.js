@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'baseline'
+        alignItems: 'center'
     }
 });
 export default RestaurantOverviewScreen;

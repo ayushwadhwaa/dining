@@ -4,6 +4,7 @@ import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
 import {useDispatch} from 'react-redux';
 import {setLocation} from './../store/actions/locationActions';
+import { StackActions } from '@react-navigation/native';
 const PermissionsScreen = props => {
     const [isFetching, setIsFetching] = useState(false);
     const dispatch = useDispatch();
@@ -30,6 +31,9 @@ const PermissionsScreen = props => {
             try{
                 const userLocation = await Location.getCurrentPositionAsync({timeout: 5000});
                 dispatch(setLocation(userLocation.coords.latitude, userLocation.coords.longitude));
+                props.navigation.dispatch(
+                    StackActions.replace('TabNavigator')
+                );
             }catch(err){
                 Alert.alert(
                     'Error!',
