@@ -1,10 +1,11 @@
-import React from 'react';
-import {View, Text, Button, StyleSheet, Alert} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, Button, StyleSheet, Alert, ActivityIndicator} from 'react-native';
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
 import {useDispatch} from 'react-redux';
-import {setLocation} from './../store/actions/locationActions'; 
+import {setLocation} from './../store/actions/locationActions';
 const PermissionsScreen = props => {
+    const [isFetching, setIsFetching] = useState(false);
     const dispatch = useDispatch();
     const verifyPermission = async () => {
         const alreadyGranted = await Permissions.getAsync(Permissions.LOCATION);
@@ -25,20 +26,31 @@ const PermissionsScreen = props => {
                 [{text:'okay'}]
             );
         }else{
+            setIsFetching(true);
             const userLocation = await Location.getCurrentPositionAsync();
             dispatch(setLocation(userLocation.coords.latitude, userLocation.coords.longitude));
+            setIsFetching(false);
         }
     }
-    return (
-        <View style={styles.container}>
-            <Text style={styles.heading}>Hi, nice to meet you!</Text>
-                <View style={styles.textWrapper}>
-                    <Text style={styles.textStyle}>Set your location to start exploring restaurants around you.</Text>
-                    <Text style={styles.textStyle}>We only access your location while you are using the app to improve your experience.</Text>
-                </View>
-            <Button title="Next" onPress={onNextHandler}/>
-        </View>
-    );
+    if(isFetching){
+        return (
+            <View style={styles.container}>
+                <ActivityIndicator size='large' color='red'/>
+            </View>
+        );
+    }
+    else{
+        return (
+            <View style={styles.container}>
+                <Text style={styles.heading}>Hi, nice to meet you!</Text>
+                    <View style={styles.textWrapper}>
+                        <Text style={styles.textStyle}>Set your location to start exploring restaurants around you.</Text>
+                        <Text style={styles.textStyle}>We only access your location while you are using the app to improve your experience.</Text>
+                    </View>
+                <Button title="Next" onPress={onNextHandler}/>
+            </View>
+        );
+    }
 }
 const styles = StyleSheet.create({
     container: {
