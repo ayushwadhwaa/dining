@@ -1,7 +1,30 @@
 import React from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
-import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
+import {View, Text, Button, StyleSheet, Alert} from 'react-native';
+import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
 const PermissionsScreen = props => {
+    const verifyPermission = async () => {
+        const alreadyGranted = await Permissions.getAsync(Permissions.LOCATION);
+        if(alreadyGranted.status !== 'granted'){
+            const res = await Permissions.askAsync(Permissions.LOCATION);
+            if(res.staus !== 'granted'){
+                return false;
+            }
+        }
+        return true;
+    }
+    const onNextHandler = async () => {
+        const hasPermission =await verifyPermission();
+        if(!hasPermission){
+            Alert.alert(
+                'Insufficient permissions!',
+                'You need to grant Location Permission to use this application.',
+                [{text:'okay'}]
+            );
+        }else{
+            const userLocation = await Location.getCurrentPositionAsync();
+        }
+    }
     return (
         <View style={styles.container}>
             <Text style={styles.heading}>Hi, nice to meet you!</Text>
@@ -9,7 +32,7 @@ const PermissionsScreen = props => {
                     <Text style={styles.textStyle}>Set your location to start exploring restaurants around you.</Text>
                     <Text style={styles.textStyle}>We only access your location while you are using the app to improve your experience.</Text>
                 </View>
-            <Button title="Next"/>
+            <Button title="Next" onPress={onNextHandler}/>
         </View>
     );
 }
