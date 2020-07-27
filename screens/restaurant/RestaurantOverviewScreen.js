@@ -1,38 +1,36 @@
-import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, Text, ActivityIndicator, FlatList} from 'react-native';
-import {geoCode} from './../../http/FetchLib';
-import {setRestaurantsData} from './../../store/actions/restaurantDataActions';
-import {useDispatch, useSelector} from 'react-redux';
+import React from 'react';
+import {View, StyleSheet, Text, FlatList} from 'react-native';
+import {useSelector} from 'react-redux';
 import Colors from './../../constants/Colors';
+import RestaurantOverviewItem from './../../components/RestaurantOverviewItem';
 const RestaurantOverviewScreen = props => {
-    const dispatch = useDispatch();
-    const [isDataFetched, setIsDataFetched] = useState(false); 
-    const name = useSelector(state => state.restaurant.cityName);
-    const title = useSelector(state => state.restaurant.locationTitle);
-    const getData = async () => {
-        const data = await geoCode();
-        dispatch(setRestaurantsData(data.nearby_restaurants, data.location.title, data.location.city_name));
-        setIsDataFetched(true);
-    } 
-    getData();
-    if(!isDataFetched){
-        return (
-            <View style={styles.container}>
-                <ActivityIndicator size='large' color='red'/>
+    return(
+        <View style={styles.container}>
+            <View style={styles.locationWapper}>
+                <Text style={styles.locationText}>{useSelector(state => state.restaurant.locationTitle)}, {useSelector(state => state.restaurant.cityName)}</Text>
             </View>
-        );
-    }else{
-        return(
-            <View style={styles.container}>
-                <View style={styles.locationWapper}>
-                    <Text style={styles.locationText}>{title}, {name}</Text>
-                </View>
-                <View style={styles.textWrapper}>
-                    <Text style={styles.textStyles}>Popular Restaurants Near You</Text>
-                </View>
+            <View style={styles.textWrapper}>
+                <Text style={styles.textStyles}>Popular Restaurants Near You</Text>
             </View>
-        );
-    }
+            <FlatList
+                style={styles.list}
+                data={useSelector(state=> state.restaurant.nearbyRestaurants)}
+                keyExtractor={item => item.restaurant.id}
+                renderItem={itemData => (
+                    <RestaurantOverviewItem
+                        image={itemData.item.restaurant.featured_image}
+                        name={itemData.item.restaurant.name}
+                        ratting={itemData.item.restaurant.user_rating.aggregate_rating}
+                        rattingText={itemData.item.restaurant.user_rating.rating_text}
+                        cuisines={itemData.item.restaurant.cuisines}
+                        locality={itemData.item.restaurant.location.locality}
+                        averageCost={itemData.item.restaurant.average_cost_for_two}
+                        currency={itemData.item.restaurant.currency}
+                    />
+                )}
+            />
+        </View>
+    );
 }
 const styles = StyleSheet.create({
     container: {
@@ -62,6 +60,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "600",
         color: Colors.richBlack
+    },
+    list: {
+        width: '100%',
+        paddingHorizontal: 20
     }
 });
 export default RestaurantOverviewScreen;

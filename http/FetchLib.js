@@ -1,8 +1,5 @@
-import {useSelector} from 'react-redux';
 import apiKey from './../config/apiKey';
-export const geoCode = async () => {
-    const lat = useSelector(state => state.location.latitude);
-    const lon = useSelector(state => state.location.longitude);
+export const geoCode = async (lat, lon) => {
     const url = "https://developers.zomato.com/api/v2.1/geocode?lat="+lat+"&lon="+lon;
     const response = await fetch(url,{
         headers:{

@@ -3,8 +3,8 @@ import {View, Text, Button, StyleSheet, Alert, ActivityIndicator} from 'react-na
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
 import {useDispatch} from 'react-redux';
-import {setLocation} from './../store/actions/locationActions';
 import { StackActions } from '@react-navigation/native';
+import {fetchRestaurantsData} from '././../store/actions/restaurantDataActions';
 const PermissionsScreen = props => {
     const [isFetching, setIsFetching] = useState(false);
     const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const PermissionsScreen = props => {
             setIsFetching(true);
             try{
                 const userLocation = await Location.getCurrentPositionAsync({timeout: 5000});
-                dispatch(setLocation(userLocation.coords.latitude, userLocation.coords.longitude));
+                dispatch(fetchRestaurantsData(userLocation.coords.latitude,userLocation.coords.longitude));
                 props.navigation.dispatch(
                     StackActions.replace('TabNavigator')
                 );

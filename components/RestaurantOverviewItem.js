@@ -3,7 +3,8 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 const RestaurantOverviewItem = props => {
     return (
         <View style={styles.container}>
-            <Image source={{uri: props.image}} style={styles.image}/>
+            {props.image !="" ? <Image source={{uri: props.image}} style={styles.image}/> : <View style={styles.fallBack}><Text>Image unavailable</Text></View>}
+            
             <View style={styles.textWrapper}>
                 <Text style={styles.restaurantName}>{props.name}</Text>
                 <Text>Rating: {props.ratting} {props.rattingText}</Text>
@@ -43,6 +44,11 @@ const styles = StyleSheet.create({
     },
     cost:{
         fontWeight:'bold'
+    },
+    fallBack:{
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '50%'
     }
 });
 export default RestaurantOverviewItem;
