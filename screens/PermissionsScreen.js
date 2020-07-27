@@ -10,23 +10,20 @@ const PermissionsScreen = props => {
     const dispatch = useDispatch();
     const verifyPermission = async () => {
         const alreadyGranted = await Permissions.getAsync(Permissions.LOCATION);
-        if(alreadyGranted.status !== 'granted'){
+        if(alreadyGranted.granted){
+            return true;
+        }else{
             const res = await Permissions.askAsync(Permissions.LOCATION);
-            if(res.staus !== 'granted'){
+            if(res.granted){
+                return true;
+            }else{
                 return false;
             }
         }
-        return true;
     }
     const onNextHandler = async () => {
         const hasPermission =await verifyPermission();
-        if(!hasPermission){
-            Alert.alert(
-                'Insufficient permissions!',
-                'You need to grant Location Permission to use this application.',
-                [{text:'okay'}]
-            );
-        }else{
+        if(hasPermission){
             setIsFetching(true);
             try{
                 const userLocation = await Location.getCurrentPositionAsync({timeout: 5000});
@@ -42,6 +39,12 @@ const PermissionsScreen = props => {
                 );
             }
             setIsFetching(false);
+        }else{
+            Alert.alert(
+                'Insufficient permissions!',
+                'You need to grant Location Permission to use this application.',
+                [{text:'okay'}]
+            );
         }
     }
     if(isFetching){
