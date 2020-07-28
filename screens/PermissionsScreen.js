@@ -5,6 +5,8 @@ import * as Location from 'expo-location';
 import {useDispatch} from 'react-redux';
 import { StackActions } from '@react-navigation/native';
 import {fetchRestaurantsData} from '././../store/actions/restaurantDataActions';
+import Colors from './../constants/Colors';
+import { color } from 'react-native-reanimated';
 const PermissionsScreen = props => {
     const [isFetching, setIsFetching] = useState(false);
     const dispatch = useDispatch();
@@ -77,10 +79,12 @@ const styles = StyleSheet.create({
     },
     heading: {
         fontSize: 24,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: Colors.greenMunsell
     },
     textStyle: {
-        fontSize: 16
+        fontSize: 16,
+        color: Colors.midninghtBlue
     },
     textWrapper: {
         padding: 10,
