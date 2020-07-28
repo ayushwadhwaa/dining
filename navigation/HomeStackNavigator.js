@@ -6,7 +6,7 @@ const Stack = createStackNavigator();
 const HomeStackNavigator = props => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="RestaurantOverviewScreen" component={RestaurantOverviewScreen} />
+            <Stack.Screen name="RestaurantOverviewScreen" component={RestaurantOverviewScreen}  />
             <Stack.Screen name="RestaurantDetailsScreen" component={RestaurantDetailsScreen} />
         </Stack.Navigator>
     );

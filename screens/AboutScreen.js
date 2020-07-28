@@ -3,7 +3,7 @@ import {View, StyleSheet, Text} from 'react-native';
 const AboutScreen = props => {
     return(
         <View style={styles.container}>
-            <Text>AboutScreen</Text>
+            <Text>Developed By Ayush Wadhwa</Text>
         </View>
     );
 }

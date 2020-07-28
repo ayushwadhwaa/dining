@@ -8,8 +8,8 @@ const AppNavigator = props => {
     return (
         <NavigationContainer>
             <Stack.Navigator>
-                <Stack.Screen name="PermissionsScreen" component={PermissionsScreen} />
-                <Stack.Screen name="TabNavigator" component={TabNavigator} />
+                <Stack.Screen name="PermissionsScreen" component={PermissionsScreen} options={{ title: 'Dining' }} />
+                <Stack.Screen name="TabNavigator" component={TabNavigator} options={{ title: 'Dining' }}/>
             </Stack.Navigator>
         </NavigationContainer>
     );
