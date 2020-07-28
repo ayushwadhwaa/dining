@@ -1,5 +1,6 @@
-import apiKey from './../config/apiKey';
+import {apiKey} from './../config/apiKey';
 export const geoCode = async (lat, lon) => {
+    console.log("REQUEST SENT");
     const url = "https://developers.zomato.com/api/v2.1/geocode?lat="+lat+"&lon="+lon;
     const response = await fetch(url,{
         headers:{

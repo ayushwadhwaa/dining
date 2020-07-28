@@ -4,6 +4,11 @@ import {useSelector} from 'react-redux';
 import Colors from './../../constants/Colors';
 import RestaurantOverviewItem from './../../components/RestaurantOverviewItem';
 const RestaurantOverviewScreen = props => {
+    const onPressHandler = (id) => {
+        props.navigation.navigate('RestaurantDetailsScreen',{
+            resID: id
+        });
+    }
     return(
         <View style={styles.container}>
             <View style={styles.locationWapper}>
@@ -18,6 +23,7 @@ const RestaurantOverviewScreen = props => {
                 keyExtractor={item => item.restaurant.id}
                 renderItem={itemData => (
                     <RestaurantOverviewItem
+                        id={itemData.item.restaurant.id}
                         image={itemData.item.restaurant.featured_image}
                         name={itemData.item.restaurant.name}
                         ratting={itemData.item.restaurant.user_rating.aggregate_rating}
@@ -26,6 +32,7 @@ const RestaurantOverviewScreen = props => {
                         locality={itemData.item.restaurant.location.locality}
                         averageCost={itemData.item.restaurant.average_cost_for_two}
                         currency={itemData.item.restaurant.currency}
+                        onPress={onPressHandler}
                     />
                 )}
             />
