@@ -11,8 +11,8 @@ const RestaurantDetailsScreen = props => {
         if(res.restaurant.id === resID){
             return true;
         }
-    });
-    const mapUrl = "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/"+selectedRestaurant.restaurant.location.longitude+","+selectedRestaurant.restaurant.location.latitude+",14,0,5/250x300?access_token="+mapBoxAccessToken;
+    });                 
+    const mapUrl = "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-l-r("+selectedRestaurant.restaurant.location.longitude+","+selectedRestaurant.restaurant.location.latitude+")/"+selectedRestaurant.restaurant.location.longitude+","+selectedRestaurant.restaurant.location.latitude+",14,0,5/250x300?access_token="+mapBoxAccessToken;
     return (
         <ScrollView>
         <View style={styles.container}>
